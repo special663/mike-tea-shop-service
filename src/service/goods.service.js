@@ -136,6 +136,83 @@ class GoodsService {
     `;
     await database.execute(statement, [id]);
   }
+  async insertShopBag(id, uid, price, taste, count, image) {
+    try {
+      const statement = `
+    INSERT INTO shopBag 
+      (goods_id, user_id, price, taste, count, img) 
+    VALUES 
+      (?, ?, ?, ?, ?, ?)
+    `;
+
+      const [result] = await database.execute(statement, [
+        id,
+        uid,
+        price,
+        taste,
+        count,
+        image,
+      ]);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  //查询购物袋内容
+  async selectShopBagByUid(uid) {
+    try {
+      const statement = `
+      SELECT 
+        shopBag.id AS id,price,taste,count,goods_id,img,goods.name AS goods_name,
+        affirm
+      FROM shopBag
+      JOIN goods ON goods.id=shopBag.goods_id
+      WHERE user_id = ?`;
+      const [result] = await database.execute(statement, [uid]);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  //删除某条记录
+  async deleteShopBagByUid(uid) {
+    try {
+      const statement = `DELETE FROM shopBag WHERE user_id=? `;
+      const result = database.execute(statement, [uid]);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  //更新购物袋中某条记录
+  async updateShopBagCount(count, uid, goods_id) {
+    try {
+      const statement = `
+    UPDATE shopBag SET count=? WHERE user_id=? AND goods_id=?
+    `;
+      const result = await database.execute(statement, [count, uid, goods_id]);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  //更新购物袋 选择check 记录
+  async updateShopBagAffirm(affirm, id, uid, goods_id) {
+    try {
+      const statement = `
+      UPDATE shopBag SET affirm =? WHERE id=? AND goods_id=? AND user_id=?
+      `;
+      const result = await database.execute(statement, [
+        affirm,
+        id,
+        goods_id,
+        uid,
+      ]);
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = new GoodsService();

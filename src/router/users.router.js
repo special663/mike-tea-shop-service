@@ -11,6 +11,7 @@ const {
   verifyUserInfo,
 } = require("../middleware/users.middleware");
 const { picture } = require("../controller/goods.controller");
+const { verifyAuth } = require("../middleware/auth.middleware");
 
 const UserRouter = new Router({ prefix: "/users" });
 //1、创建用户

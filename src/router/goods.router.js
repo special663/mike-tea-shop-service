@@ -5,6 +5,12 @@ const {
   list,
   picture,
   swipe,
+  material,
+  insertShopBag,
+  selectShopBag,
+  clearShopBag,
+  updateShopBagCount,
+  updateShopBagAffirm,
 } = require("../controller/goods.controller");
 
 const { verifyAuth } = require("../middleware/auth.middleware");
@@ -22,6 +28,18 @@ GoodsRouter.get("/images/:filename", picture);
 GoodsRouter.get("/material/:materialname", picture);
 //6、获取轮播图图片组
 GoodsRouter.get("/swipe", swipe);
+//7、获取小料列表
+GoodsRouter.get("/material", material);
+//8、提交商品到购物袋中
+GoodsRouter.post("/shopBag", verifyAuth, insertShopBag);
+//9、查找购物袋信息
+GoodsRouter.get("/:uid/shopBag", verifyAuth, selectShopBag);
+//10、清空购物袋信息
+GoodsRouter.post("/:uid/shopBag", verifyAuth, clearShopBag);
+//11、修改购物袋中商品的数量
+GoodsRouter.patch("/shopBag", verifyAuth, updateShopBagCount);
+//12、修改购物袋中商品是否被选中
+GoodsRouter.patch("/shopBag/affirm", verifyAuth, updateShopBagAffirm);
 
 //5、在商品下发布评论
 GoodsRouter.post("/:goodsId/comment", verifyAuth);

@@ -10,7 +10,7 @@ const errorHandler = require("./error-handle");
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "POST", "DELETE"],
+    methods: ["GET", "POST", "DELETE", "PATCH"],
   })
 );
 app.useRouter = useRouter;
